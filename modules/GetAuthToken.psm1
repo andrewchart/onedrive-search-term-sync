@@ -52,7 +52,7 @@ function Get-NewTokens {
         [string]$redirectUri = "http://localhost/onedrive-search-term-sync"
     )
 
-    $auth = Get-ODAuthentication -ClientID $clientId -AppKey $clientSecret -RefreshToken $refreshToken -RedirectURI $redirectUri
+    $auth = Get-ODAuthentication -ClientID $clientId -AppKey $clientSecret -RefreshToken $refreshToken -RedirectURI $redirectUri -Scope "onedrive.readonly,offline_access"
 
     # Create a new tokens.xml file
     $xmlDocument = New-Object System.Xml.XmlDocument
