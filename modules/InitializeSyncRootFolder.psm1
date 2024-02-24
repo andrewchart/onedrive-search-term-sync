@@ -3,7 +3,10 @@
 
 function Initialize-SyncRootFolder {
 
-    param($syncRoot)
+    param(
+        [Parameter()]
+        [string]$syncRoot
+    )
 
     if ( !(Test-Path -Path $syncRoot) ) {
 
@@ -18,6 +21,7 @@ function Initialize-SyncRootFolder {
         } else {
             Write-Error -Message "Sync root directory does not exist. Exiting." -ErrorAction Stop
         }
+        
     }
 
 }
