@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
     <syncRoot>C:\Users\MyName\OneDriveSync</syncRoot>
+    <clientId>d9156c5e-6343-3783-d5b6-439274960ee02</clientId>
+    <clientSecret>wJ16bHjnjsWvlTcE5w7qm4SLMA6XFEeBYtyiNFNjLo9gByzDUOUrt7qCmZPyYmYN</clientSecret>
+    <searchTerm>cat</searchTerm>
 </config>
