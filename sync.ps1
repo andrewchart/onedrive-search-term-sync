@@ -4,6 +4,7 @@ function main {
     # Imports
     Import-Module ".\modules\InitializeSyncRootFolder.psm1"
     Import-Module ".\modules\GetAuthToken.psm1"
+    Import-Module ".\modules\SyncODSearchResults.psm1"
 
     # Read config variables
     $config = ( [xml](Get-Content ".\config.xml") ).config
@@ -20,7 +21,11 @@ function main {
     # Get an authentication token to make the API query
     $token = Get-AuthToken
 
-    Write-Output $token
+    # Execute the search
+    $results = Search-ODItems -AccessToken $token -SearchText $config.searchTerm -SelectProperties "id,name,parentReference"
+
+    # Download the files
+    Sync-ODSearchResults -AccessToken $token -SyncRoot $config.syncRoot -Results $results
 
 }
 
