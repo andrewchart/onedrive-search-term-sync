@@ -79,6 +79,17 @@ function Remove-DeletedObjects {
         Remove-Item $file
     }
 
+    # Deletes subfolders of the sync root which have no files in them
+    $dirsToDelete = Get-ChildItem -Path $SyncRoot -Directory -Recurse |
+    Where-Object {
+        (Get-ChildItem -Path $_.FullName -File -Recurse | Measure-Object).Count -eq 0
+    }
+
+    foreach($dir in $dirsToDelete) {
+        Write-Host "Deleting" $dir.FullName "as it no longer contains any files."
+        Remove-Item $dir.FullName -Recurse -ErrorAction SilentlyContinue
+    }
+    
 }
 
 Export-ModuleMember -Function Sync-ODSearchResults
