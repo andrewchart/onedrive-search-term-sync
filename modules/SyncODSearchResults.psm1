@@ -21,9 +21,9 @@ function Sync-ODSearchResults {
         if( !$fileId ) { continue }
 
         $oneDrivePath = $filePath.Replace("/drive/root:/","").Replace("/","\")
-        $localPath = [system.uri]::UnescapeDataString("$syncRoot\$oneDrivePath")
+        $localPath = [system.uri]::UnescapeDataString("$SyncRoot\$oneDrivePath")
 
-        #Log that this file is included in the most recent results set
+        # Log that this file is included in the most recent results set
         Add-Content -Path ".\latestfiles.tmp" -Value "$localPath\$fileName"
 
         # Check if the file already exists using its path; skip downloading if it does
@@ -41,4 +41,44 @@ function Sync-ODSearchResults {
 
     }
 
+    Remove-DeletedObjects -SyncRoot $SyncRoot
+
 }
+
+
+# Deletes files and folders which are no longer used
+function Remove-DeletedObjects {
+
+    param(
+        [Parameter()]
+        [string]$SyncRoot
+    )
+
+    # Create the list of all current files in the sync root folder
+    Get-ChildItem -Path $SyncRoot -Recurse -File |
+    ForEach-Object {
+        Add-Content -Path ".\currentfiles.tmp" -Value $_.FullName   
+    }
+
+    # Diff the current files with the latest files to determine which to delete
+    $latestFiles = Get-Content(".\latestfiles.tmp")
+    $currentFiles = Get-Content(".\currentfiles.tmp")
+
+    $latestFilesHashSet = [System.Collections.Generic.HashSet[string]]::new(
+        [string[]] $latestFiles,
+        [System.StringComparer]::OrdinalIgnoreCase
+    )
+
+    $filesToDelete = $currentFiles.Where({
+        !( $latestFilesHashSet.Contains($_) )
+    })
+
+    # Deletes the files in the sync root folder which no longer match the search term
+    foreach($file in $filesToDelete) {
+        Write-Host "Deleting $file as it no longer matches the OneDrive search term."
+        Remove-Item $file
+    }
+
+}
+
+Export-ModuleMember -Function Sync-ODSearchResults
