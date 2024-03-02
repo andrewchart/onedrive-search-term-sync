@@ -23,6 +23,12 @@ function Sync-ODSearchResults {
         $oneDrivePath = $filePath.Replace("/drive/root:/","").Replace("/","\")
         $localPath = [system.uri]::UnescapeDataString("$syncRoot\$oneDrivePath")
 
+        # Check if the file already exists using its path; skip downloading if it does
+        if( Test-Path -Path "$localPath\$fileName" -PathType Leaf ) {
+            Write-Host "Skipping download for $localPath\$fileName. The file already exists."
+            continue
+        }
+
         # Create the local directory if it doesn't exist
         New-Item -ItemType Directory -Force -Path $localPath | Out-Null
 
