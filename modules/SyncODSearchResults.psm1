@@ -23,6 +23,9 @@ function Sync-ODSearchResults {
         $oneDrivePath = $filePath.Replace("/drive/root:/","").Replace("/","\")
         $localPath = [system.uri]::UnescapeDataString("$syncRoot\$oneDrivePath")
 
+        #Log that this file is included in the most recent results set
+        Add-Content -Path ".\latestfiles.tmp" -Value "$localPath\$fileName"
+
         # Check if the file already exists using its path; skip downloading if it does
         if( Test-Path -Path "$localPath\$fileName" -PathType Leaf ) {
             Write-Host "Skipping download for $localPath\$fileName. The file already exists."
