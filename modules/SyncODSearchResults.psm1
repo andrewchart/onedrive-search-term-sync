@@ -67,6 +67,9 @@ function Remove-DeletedObjects {
     $latestFiles = Get-Content(".\latestfiles.tmp")
     $currentFiles = Get-Content(".\currentfiles.tmp")
 
+    # If no files match we need to ensure $latestFiles is not null to continue
+    if($null -eq $latestFiles) { $latestFiles = "" }
+
     $latestFilesHashSet = [System.Collections.Generic.HashSet[string]]::new(
         [string[]] $latestFiles,
         [System.StringComparer]::OrdinalIgnoreCase
