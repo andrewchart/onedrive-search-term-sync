@@ -18,7 +18,10 @@ function Sync-ODSearchResults {
         $fileName = [string]$file.name
         $filePath = [string]$file.parentReference.path
 
-        if( !$fileId ) { continue }
+        # We won't download directories that match the search
+        $isFile = ($null -ne $file.file) 
+
+        if( !$fileId -or !$isFile ) { continue }
 
         $oneDrivePath = $filePath.Replace("/drive/root:/","").Replace("/","\")
         $localPath = [system.uri]::UnescapeDataString("$SyncRoot\$oneDrivePath")

@@ -26,7 +26,7 @@ function main {
     $token = Get-AuthToken
 
     # Executes the search
-    $results = Search-ODItems -AccessToken $token -SearchText $config.searchTerm -SelectProperties "id,name,parentReference"
+    $results = Search-ODItems -AccessToken $token -SearchText $config.searchTerm -SelectProperties "id,name,parentReference,file"
 
     # Downloads the files and deletes files which no longer match
     Sync-ODSearchResults -AccessToken $token -SyncRoot $config.syncRoot -Results $results
