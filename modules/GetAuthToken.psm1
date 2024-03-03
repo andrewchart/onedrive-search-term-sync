@@ -11,9 +11,9 @@ function Get-AuthToken {
     # token is invalid, we will get new tokens by reauthenticating.
     try {
 
-        $tokens = ( [xml](Get-Content ".\tokens.xml" -ErrorAction Stop) ).tokens
+        $refreshToken = ( [xml](Get-Content ".\tokens.xml" -ErrorAction Stop) ).tokens.refresh
 
-        Get-NewTokens -clientId $config.clientId -clientSecret $config.clientSecret -refreshToken $tokens.refresh -ErrorAction Stop | Out-Null
+        $tokensFileCreated = Get-NewTokens -clientId $config.clientId -clientSecret $config.clientSecret -refreshToken $refreshToken -ErrorAction Stop
 
     } catch {
 
@@ -21,15 +21,14 @@ function Get-AuthToken {
 
         $tokensFileCreated = Get-NewTokens -clientId $config.clientId -clientSecret $config.clientSecret
 
-        if( !($tokensFileCreated -eq 1) ) {
-            Write-Error -Message "Unable to create tokens.xml file. Exiting." -ErrorAction Stop
-        }
-
-        $tokens = ( [xml](Get-Content ".\tokens.xml" -ErrorAction Stop) ).tokens
-
     }
 
-    return $tokens.auth
+    # Re-read the tokens file and return the latest auth token
+    if( !($tokensFileCreated -eq 1) ) {
+        Write-Error -Message "Unable to create tokens.xml file. Exiting." -ErrorAction Stop
+    }
+
+    return ( [xml](Get-Content ".\tokens.xml" -ErrorAction Stop) ).tokens.auth
 
 }
 
