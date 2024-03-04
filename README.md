@@ -20,12 +20,12 @@ The general usage would be as follows:
 You first need to register a client application on the Azure Portal to be able to access your OneDrive over API. A summary of the required steps is below or [click here to read Microsoft's detailed documentation](https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app).
 
 * Navigate to [https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade](https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade)
-* Click *+ New Registration*
+* Click **+ New Registration**
 * Name your application e.g. `onedrive-search-term-sync`
-* Under "Who can use this application..." select *Personal Microsoft Accounts only* for a personal OneDrive instance
-* Under "Redirect URI" select *Web* and enter `http://localhost/onedrive-search-term-sync`
-** 📝 Note that this callback URI is [hard-coded](./modules/GetAuthToken.psm1#L51) into the script so if you use your own, authentication will not work unless you also change the script. It does not matter if the URI does not return any response.
-* Click *Register*
+* Under "Who can use this application..." select **Personal Microsoft Accounts only** for a personal OneDrive instance
+* Under "Redirect URI" select **Web** and enter `http://localhost/onedrive-search-term-sync`
+    * 📝 Note that this callback URI is [hard-coded](./modules/GetAuthToken.psm1#L51) into the script so if you use your own, authentication will not work unless you also change the script. It does not matter if the URI does not return any response.
+* Click ***Register**
 
 ![Screenshot of the Microsoft Azure new app registration screen](./screenshots/app-registration-screen.png)
 
@@ -33,8 +33,8 @@ You first need to register a client application on the Azure Portal to be able t
 
 ![Example of where to find the client ID in the Azure Portal](./screenshots/client-id.png)
 
-* Click *Certificates & secrets*
-* Click *New client secret*, select a name and expiry date
+* Click **Certificates & secrets**
+* Click **New client secret**, select a name and expiry date
 * Copy the `Value` of the secret key into the `config.xml` file
 
 ### 2. Download this repository locally
@@ -53,7 +53,7 @@ You must create a file called `config.xml` with a root element `<config>` and th
 
 It is recommended to copy the example file in this repository `config.example.xml` as your starting point.
 
-⚠️ *WARNING: The script has the ability to DELETE files in the syncRoot folder.* Make sure this is a dedicated folder to receive OneDrive files related to your search term. Any files and subfolders of the sync root folder which are not downloaded from OneDrive are [deleted](./modules/SyncODSearchResults.psm1#L53) when the script is run.
+⚠️ **WARNING: The script has the ability to DELETE files in the syncRoot folder. Make sure this is a dedicated folder to receive OneDrive files related to your search term. Any files and subfolders of the sync root folder which are not downloaded from OneDrive are [deleted](./modules/SyncODSearchResults.psm1#L53) when the script is run.**
 
 ### 4. Run the script for the first time
 
@@ -75,6 +75,8 @@ This step will:
 ## Application Details
 
 ### My Use Case
+![Picture of my TV showing a photo synced using the script](./screenshots/tv-wallpaper.jpg)
+
 I wrote this script as I wanted to sync specific photos from my personal OneDrive to a local folder on my media center PC so that I could use the images as lock screen wallpapers, turning my TV into a digital photo frame.
 
 I did not want _all_ my photos to be available on the TV, only my favourite ones, and I wanted to be able to easily add/remove photos over time.
@@ -117,7 +119,7 @@ Unfortunately this meant that the script wouldn't run on my Mac and I wasn't ult
 The OneDrive module supports connecting to a business OneDrive / Sharepoint instance, so I have no reason to believe this couldn't work, but the script would need to be modified to additionally supply a ResourceID during the authentication flow.
 
 #### One way synchronization
-This script hasn't been designed to do two-way synchronization with OneDrive. OneDrive is the source and the machine running the script is the destination. Files put into the sync root folder at the destination will _not_ be uploaded to OneDrive and furthermore will be *DELETED* as part of the script's cleanup activities.
+This script hasn't been designed to do two-way synchronization with OneDrive. OneDrive is the source and the machine running the script is the destination. Files put into the sync root folder at the destination will _not_ be uploaded to OneDrive and furthermore will be **DELETED** as part of the script's cleanup activities.
 
 ---
 
