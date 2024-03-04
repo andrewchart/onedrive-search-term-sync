@@ -25,7 +25,7 @@ You first need to register a client application on the Azure Portal to be able t
 * Under "Who can use this application..." select **Personal Microsoft Accounts only** for a personal OneDrive instance
 * Under "Redirect URI" select **Web** and enter `http://localhost/onedrive-search-term-sync`
     * 📝 Note that this callback URI is [hard-coded](./modules/GetAuthToken.psm1#L51) into the script so if you use your own, authentication will not work unless you also change the script. It does not matter if the URI does not return any response.
-* Click ***Register**
+* Click **Register**
 
 ![Screenshot of the Microsoft Azure new app registration screen](./screenshots/app-registration-screen.png)
 
