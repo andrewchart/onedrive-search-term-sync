@@ -7,7 +7,7 @@ Powershell script to copy files from OneDrive which match a specified search ter
 > 
 > I noticed this change occur overnight and it appears to apply to both the OneDrive API and the web application. I have not found any way to search OneDrive using metadata tags since the apparent change. I've raised [a question on Microsoft Answers](https://learn.microsoft.com/en-gb/answers/questions/2100664/onedrive-search-api-no-longer-returns-results-base) about this with no reply to date. 
 > 
-> If anyone knows a better way to raise this as an issue [I would love to know](https://www.andrewchart.co.uk/contact-me). For the time being, this script won't work unless you are searching for terms based on a string in the file name.
+> If anyone knows a better way to raise this as an issue [I would love to know](https://www.andrewchart.co.uk/contact-me). For the time being, this script won't work for my use case (to download files based on metadata tags). It should still work to download any files that are deemed by Microsoft to match your search string.
 
 ## Overview
 This script allows you to synchronize files in Microsoft OneDrive that match a user-specified search term with a local folder on your PC.
